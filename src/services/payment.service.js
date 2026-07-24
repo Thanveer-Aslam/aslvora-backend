@@ -20,37 +20,49 @@ class PaymentService {
 
     if (order.user.toString() !== userId.toString()) {
       throw new Error("You are not authorized to pay for this order.");
-      }
+    }
       
     if (["Cancelled", "Delivered"].includes(order.orderStatus)) {
-        throw new Error(
-          `Cannot create payment for a ${order.orderStatus.toLowerCase()} order.`,
-        );
+      throw new Error(
+        `Cannot create payment for a ${order.orderStatus.toLowerCase()} order.`,
+      );
     }
 
     if (order.paymentStatus === "Paid") {
       throw new Error("Order has already been paid.");
     }
+    console.log("Loading Razorpay Client...");
     const { razorpay, keyId } = await getRazorpayClient();
-    const razorpayOrder = await razorpay.orders.create({
-      amount: Math.round(order.totalAmount * 100),
-      currency: "INR",
-      receipt: order._id.toString(),
-      notes: {
-        orderId: order._id.toString(),
-        userId: userId.toString(),
-      },
-    });
+    console.log("Razorpay Client Loaded");
 
-    order.transactionId = razorpayOrder.id;
-    await order.save();
+    try {
+      console.log("Creating Razorpay Order...");
 
-    return {
-      orderId: razorpayOrder.id,
-      amount: razorpayOrder.amount,
-      currency: razorpayOrder.currency,
-      key: keyId,
-    };
+      const razorpayOrder = await razorpay.orders.create({
+        amount: Math.round(order.totalAmount * 100),
+        currency: "INR",
+        receipt: order._id.toString(),
+        notes: {
+          orderId: order._id.toString(),
+          userId: userId.toString(),
+        },
+      });
+
+      console.log("Razorpay Order Created:", razorpayOrder);
+
+      order.transactionId = razorpayOrder.id;
+      await order.save();
+
+      return {
+        orderId: razorpayOrder.id,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        key: keyId,
+      };
+    } catch (error) {
+      console.error("RAZORPAY ERROR:", error);
+      throw error;
+    }
   }
 
    // Verify Razorpay Signature
