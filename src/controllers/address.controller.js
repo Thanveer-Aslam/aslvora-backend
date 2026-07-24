@@ -1,4 +1,4 @@
-import Address from "../models/address.js";
+import Address from "../models/Address";
 
 /**
  * @desc    Create a new address
