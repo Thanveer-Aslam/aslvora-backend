@@ -53,7 +53,6 @@ export const testPaymentConnection = async (req, res, next) => {
       message: result.message,
     });
     } catch (error) {
-        console.error("Controller Error:", error);
     next(error);
   }
 };

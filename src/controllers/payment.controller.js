@@ -7,9 +7,6 @@ import PaymentService from "../services/payment.service.js";
  */
 export const createRazorpayOrder = async (req, res, next) => {
   try {
-    console.log("=== CREATE ORDER CONTROLLER ===");
-    console.log("User:", req.user);
-    console.log("Order:", req.params.orderId);
     const { orderId } = req.params;
 
     const paymentOrder = await PaymentService.createRazorpayOrder(
