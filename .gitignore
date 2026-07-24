@@ -1,0 +1,15 @@
+node_modules
+
+.env
+
+uploads/
+
+coverage/
+
+dist/
+
+pnpm-lock.yaml
+
+.DS_Store
+
+backend-structure.txt
