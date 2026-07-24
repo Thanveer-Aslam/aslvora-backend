@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import Order from "../models/Order.js";
 import Cart from "../models/Cart.js";
 import Product from "../models/Product.js";
-import Address from "../models/address.js";
+import Address from "../models/Address.js";
 import User from "../models/User.js";
 import Counter from "../models/Counter.js";
 
