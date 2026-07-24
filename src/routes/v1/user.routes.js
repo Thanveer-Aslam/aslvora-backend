@@ -3,7 +3,7 @@ import express from "express";
 import { authenticate } from "../../middlewares/auth.middleware.js";
 import validate from "../../middlewares/validate.middleware.js";
 
-import { getProfile, updateProfile } from "../../controllers/user.Controller.js";
+import { getProfile, updateProfile } from "../../controllers/auth.controller.js";
 
 import { updateProfileValidator } from "../../validators/user.validator.js";
 
